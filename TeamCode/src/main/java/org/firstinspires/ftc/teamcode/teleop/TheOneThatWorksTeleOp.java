@@ -7,10 +7,11 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Flywheel;
 import org.firstinspires.ftc.teamcode.drive.LimelightVision;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
+import org.firstinspires.ftc.teamcode.drive.flywheel;
 import org.firstinspires.ftc.teamcode.drive.intake;
+import org.firstinspires.ftc.teamcode.drive.servo;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.List;
@@ -18,12 +19,8 @@ import java.util.List;
 
 @TeleOp(name="TheOneThatWorksTeleOp")
 public class TheOneThatWorksTeleOp extends LinearOpMode {
-
-
-//    private Limelight3A limelight;
-//    private AprilTagVision tagVision;
-
-    private Flywheel spinny;
+    private flywheel spinny;
+    private servo purple;
     private MecanumDrive drive;
     private intake spin;
     private LimelightVision vision;
@@ -31,14 +28,10 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-//        tagVision = new AprilTagVision();
-//        tagVision.init(hardwareMap);
-
-
         telemetry.addLine("AprilTag Vision Ready");
         telemetry.update();
-
-        spinny = new Flywheel(hardwareMap);
+        purple= new servo(hardwareMap);
+        spinny = new flywheel(hardwareMap);
         drive = new MecanumDrive(hardwareMap);
         spin = new intake(hardwareMap);
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
@@ -61,13 +54,15 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             double rx = gamepad1.right_stick_x;
             drive.drive(y, x, rx);
 
-            // --- Flywheel Control ---
+            // --- flywheel Control ---
             if (gamepad2.a) {
-                spinny.spin(1);
+                double power = vision.getTargetPower();
+                spinny.spinny(power);
             } else if (gamepad2.b) {
-                spinny.spin(-1);
+                spinny.spinny(-1);
             } else {
                 spinny.stop();
+            }
             }
 
             // --- Intake Control ---
@@ -80,10 +75,12 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             }
             vision.updateTelemetry();
             telemetry.update();
-
-
+            if(gamepad2.left_bumper) {
+                purple.purple(1);
+            } else if(gamepad2.right_bumper){
+                purple.purple(-1);
+            }
 
         }
     }
-}
 

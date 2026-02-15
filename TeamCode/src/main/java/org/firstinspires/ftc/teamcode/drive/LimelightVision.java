@@ -4,9 +4,13 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import java.util.Locale;
+
 public class LimelightVision {
     private Limelight3A limelight;
     private Telemetry telemetry;
+    private double currentDistance = 0;
+
 
     public LimelightVision(Limelight3A limelight, Telemetry telemetry) {
         this.limelight = limelight;
@@ -14,18 +18,31 @@ public class LimelightVision {
 
     }
 
-    // Call this once in your TeleOp's init
     public void init() {
-        limelight.pipelineSwitch(0); // Ensure your AprilTag pipeline is at Index 0
+        limelight.pipelineSwitch(0); // 0 for april tags
         limelight.start();
     }
 
-    // Call in
+    public double getDistance() {
+        return currentDistance;
+    }
+
     public void updateTelemetry() {
         LLResult result = limelight.getLatestResult();
 
         // Only display if a valid target is seen
         if (result != null && result.isValid()) {
+            double ty = result.getTy(); // Vertical offset
+            double cameraHeightInches = 16.625;
+            double goalHeight = 43;
+            double mountAngleDegrees = 0; //tilt
+
+            // Calculate Distance
+            double angleToGoalRadians = Math.toRadians(mountAngleDegrees + ty);
+            double distance = (goalHeight - cameraHeightInches) / Math.tan(angleToGoalRadians);
+            setCurrentDistance(distance);
+
+            telemetry.addData("Distance to Tag", "%.2f inches", Math.abs(distance));
             telemetry.addLine("--- AprilTag Detected ---");
             telemetry.addData("Tag ID", result.getFiducialResults());
             telemetry.addData("Horizontal Offset (tx)", "%.2f deg", result.getTx());
@@ -34,10 +51,23 @@ public class LimelightVision {
         } else {
             telemetry.addData("Limelight", "Searching for AprilTags...");
         }
+
+    }
+    public double getTargetPower() {
+        double slope = 0.01;
+        double intercept = 0.3;
+
+        return (slope * Math.abs(currentDistance)) + intercept;
     }
 
-    public void stop() {
-        limelight.stop();
+    public double getCurrentDistance() {
+        return currentDistance;
+    }
+
+
+
+    public void setCurrentDistance(double currentDistance) {
+        this.currentDistance = currentDistance;
     }
 }
 
