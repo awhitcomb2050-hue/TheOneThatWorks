@@ -26,7 +26,7 @@ public class flywheel {
     }
 
     //    public void spinny(double distance) {
-     //double power = (slope * vision.getCurrentDistance()) + intercept;
+    // double power = (slope * vision.getCurrentDistance()) + intercept;
 //
 //
 //        power = Math.max(0, Math.min(1, power));

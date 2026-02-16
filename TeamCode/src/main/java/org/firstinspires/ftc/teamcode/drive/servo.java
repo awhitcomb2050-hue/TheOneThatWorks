@@ -13,8 +13,10 @@ public class servo {
         red = hardwareMap.get(CRServo.class, "red");
 
     }
-    public void purple(double power ){
-        red.setPower(-power);
+    public void red(double power ){
+        red.setPower(power);
+    }
+    public void blue(double power ){
         blue.setPower(power);
     }
 }

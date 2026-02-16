@@ -19,7 +19,7 @@ public class LimelightVision {
     }
 
     public void init() {
-        limelight.pipelineSwitch(0); // 0 for april tags
+        limelight.pipelineSwitch(0); // 0 for april tags for 24
         limelight.start();
     }
 
@@ -33,13 +33,15 @@ public class LimelightVision {
         // Only display if a valid target is seen
         if (result != null && result.isValid()) {
             double ty = result.getTy(); // Vertical offset
-            double cameraHeightInches = 16.625;
-            double goalHeight = 43;
+            double cameraHeightInches = 13.625;
+            double goalHeight = 29.5;
             double mountAngleDegrees = 0; //tilt
 
             // Calculate Distance
-            double angleToGoalRadians = Math.toRadians(mountAngleDegrees + ty);
-            double distance = (goalHeight - cameraHeightInches) / Math.tan(angleToGoalRadians);
+            double angleToGoalDegrees =  mountAngleDegrees +ty;
+            double angleToGoalRadians = angleToGoalDegrees * (3.14159/180);
+
+            double distance = (goalHeight - cameraHeightInches) / (Math.tan(angleToGoalRadians));
             setCurrentDistance(distance);
 
             telemetry.addData("Distance to Tag", "%.2f inches", Math.abs(currentDistance));

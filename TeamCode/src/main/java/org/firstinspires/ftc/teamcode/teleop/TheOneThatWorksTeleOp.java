@@ -44,7 +44,6 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()) {
 
-
             double y = -gamepad1.left_stick_y; // forward positive
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
@@ -61,9 +60,10 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 //            }
 //            }
             if (gamepad2.a) {
-                spinny.spinny(1);
             } else if (gamepad2.b) {
-                spinny.spinny(-1);
+                spinny.spinny(-.96);
+            }else{
+                spinny.spinny(0);
             }
 
             // --- Intake Control ---
@@ -77,9 +77,14 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             vision.updateTelemetry();
             telemetry.update();
             if (gamepad2.left_bumper) {
-                purple.purple(1);
+                purple.red(1);
+                purple.blue(-1);
             } else if (gamepad2.right_bumper) {
-                purple.purple(-1);
+                purple.red(-1);
+                purple.blue(1);
+            }else{
+                purple.red(0);
+                purple.blue(0);
             }
 
         }
