@@ -42,7 +42,7 @@ public class LimelightVision {
             double distance = (goalHeight - cameraHeightInches) / Math.tan(angleToGoalRadians);
             setCurrentDistance(distance);
 
-            telemetry.addData("Distance to Tag", "%.2f inches", Math.abs(distance));
+            telemetry.addData("Distance to Tag", "%.2f inches", Math.abs(currentDistance));
             telemetry.addLine("--- AprilTag Detected ---");
             telemetry.addData("Tag ID", result.getFiducialResults());
             telemetry.addData("Horizontal Offset (tx)", "%.2f deg", result.getTx());

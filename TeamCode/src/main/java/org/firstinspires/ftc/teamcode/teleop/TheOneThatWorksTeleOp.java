@@ -30,7 +30,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
     public void runOpMode() {
         telemetry.addLine("AprilTag Vision Ready");
         telemetry.update();
-        purple= new servo(hardwareMap);
+        purple = new servo(hardwareMap);
         spinny = new flywheel(hardwareMap);
         drive = new MecanumDrive(hardwareMap);
         spin = new intake(hardwareMap);
@@ -41,12 +41,8 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
         waitForStart();
 
 
-
-
-
         waitForStart();
         while (opModeIsActive()) {
-
 
 
             double y = -gamepad1.left_stick_y; // forward positive
@@ -54,15 +50,20 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             double rx = gamepad1.right_stick_x;
             drive.drive(y, x, rx);
 
-            // --- flywheel Control ---
+//             --- flywheel Control ---
+//            if (gamepad2.a) {
+////                double power = vision.getTargetPower();
+////                spinny.spinny(power);
+//            } else if (gamepad2.b) {
+//                spinny.spinny(-1);
+//            } else {
+//                spinny.stop();
+//            }
+//            }
             if (gamepad2.a) {
-                double power = vision.getTargetPower();
-                spinny.spinny(power);
+                spinny.spinny(1);
             } else if (gamepad2.b) {
                 spinny.spinny(-1);
-            } else {
-                spinny.stop();
-            }
             }
 
             // --- Intake Control ---
@@ -75,12 +76,12 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             }
             vision.updateTelemetry();
             telemetry.update();
-            if(gamepad2.left_bumper) {
+            if (gamepad2.left_bumper) {
                 purple.purple(1);
-            } else if(gamepad2.right_bumper){
+            } else if (gamepad2.right_bumper) {
                 purple.purple(-1);
             }
 
         }
     }
-
+}
