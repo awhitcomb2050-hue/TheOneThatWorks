@@ -5,9 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @Autonomous
-public abstract class smalltriangleblue extends LinearOpMode{
+public abstract class bigtriangleblue  extends LinearOpMode {
     private DcMotorEx leftFront, rightFront, leftRear, rightRear;
     private DcMotorEx shootyMotor1, shootyMotor2;
+    private DcMotorEx intakeMotor;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -17,6 +19,7 @@ public abstract class smalltriangleblue extends LinearOpMode{
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         shootyMotor1 = hardwareMap.get(DcMotorEx.class, "shootyMotor1");
         shootyMotor2 = hardwareMap.get(DcMotorEx.class, "shootyMotor2");
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
 
 
 
@@ -27,18 +30,14 @@ public abstract class smalltriangleblue extends LinearOpMode{
             rightFront.setPower(1);
             leftRear.setPower(1);
             rightRear.setPower(1);
-            sleep(1000);
+            sleep(1500);
             shootyMotor1.setPower(1);
             shootyMotor2.setPower(1);
+            intakeMotor.setPower(1);
             sleep(1000);
+            stop();
 
 
         }
-
     }
-
-
-
-
-
 }

@@ -25,19 +25,19 @@ public class flywheel {
         shootyMotor2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
     }
 
-    //    public void spinny(double distance) {
-    // double power = (slope * vision.getCurrentDistance()) + intercept;
-//
-//
-//        power = Math.max(0, Math.min(1, power));
-//
-//        shootyMotor1.setPower(power);
-//        shootyMotor2.setPower(power);
-//    }
-    public void spinny(double power) {
+        public void spinny(double distance) {
+        double power = (slope * vision.getCurrentDistance()) + intercept;
+
+
+        power = Math.max(0, Math.min(1, power));
+
         shootyMotor1.setPower(power);
         shootyMotor2.setPower(power);
     }
+//    public void spinny(double power) {
+//        shootyMotor1.setPower(power);
+//        shootyMotor2.setPower(power);
+//    }
 
 
     public void stop() {

@@ -17,8 +17,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import java.util.List;
 
 
-@TeleOp(name="TheOneThatWorksTeleOp")
-public class TheOneThatWorksTeleOp extends LinearOpMode {
+@TeleOp(name="two0")
+public class two0 extends LinearOpMode {
     private flywheel spinny;
     private servo purple;
     private MecanumDrive drive;
@@ -37,6 +37,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
         vision = new LimelightVision(limelight, telemetry);
         vision.init();
+        limelight.pipelineSwitch(1);
 
         waitForStart();
 
@@ -49,22 +50,20 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             double rx = gamepad1.right_stick_x;
             drive.drive(y, x, rx);
 
-//             --- flywheel Control ---
+            // flywheel
+//            double currentDistance = vision.getCurrentDistance(); // Get distance from your vision system
+//            spinny.spinny(currentDistance);
 //            if (gamepad2.a) {
-////                double power = vision.getTargetPower();
-////                spinny.spinny(power);
+//                double dis = vision.getCurrentDistance();
+//                spinny.spinny(dis);
 //            } else if (gamepad2.b) {
 //                spinny.spinny(-1);
-//            } else {
-//                spinny.stop();
+//            }else{
+//                spinny.spinny(0);
 //            }
-//            }
-            double currentDistance = vision.getCurrentDistance(); // Get distance from your vision system
-            spinny.spinny(currentDistance);
-            if (gamepad2.a) {
-                double dis = vision.getCurrentDistance();
-                spinny.spinny(dis);
-            } else if (gamepad2.b) {
+            if(gamepad2.a){
+                spinny.spinny(1);
+            }else if(gamepad2.b) {
                 spinny.spinny(-1);
             }else{
                 spinny.spinny(0);
