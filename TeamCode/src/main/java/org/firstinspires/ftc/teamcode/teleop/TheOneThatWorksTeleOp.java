@@ -61,7 +61,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 //            }
             if (gamepad2.a) {
             } else if (gamepad2.b) {
-                spinny.spinny(-.96);
+                spinny.spinny(-.75);
             }else{
                 spinny.spinny(0);
             }
