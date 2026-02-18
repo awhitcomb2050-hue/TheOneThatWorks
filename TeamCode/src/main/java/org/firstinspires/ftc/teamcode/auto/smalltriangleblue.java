@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @Autonomous
-public abstract class smalltriangleblue extends LinearOpMode{
+public class smalltriangleblue extends LinearOpMode{
     private DcMotorEx leftFront, rightFront, leftRear, rightRear;
     private DcMotorEx shootyMotor1, shootyMotor2;
 

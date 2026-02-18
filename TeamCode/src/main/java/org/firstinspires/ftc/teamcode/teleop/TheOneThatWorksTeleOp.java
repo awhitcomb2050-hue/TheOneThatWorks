@@ -50,25 +50,25 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             drive.drive(y, x, rx);
 
 //             --- flywheel Control ---
-//            if (gamepad2.a) {
-////                double power = vision.getTargetPower();
-////                spinny.spinny(power);
-//            } else if (gamepad2.b) {
-//                spinny.spinny(-1);
-//            } else {
-//                spinny.stop();
-//            }
-//            }
-            double currentDistance = vision.getCurrentDistance(); // Get distance from your vision system
-            spinny.spinny(currentDistance);
             if (gamepad2.a) {
-                double dis = vision.getCurrentDistance();
-                spinny.spinny(dis);
+//                double power = vision.getTargetPower();
+                spinny.spinny(.78);
             } else if (gamepad2.b) {
                 spinny.spinny(-1);
-            }else{
-                spinny.spinny(0);
+            } else {
+                spinny.stop();
             }
+//            }
+//            double currentDistance = vision.getCurrentDistance(); // Get distance from your vision system
+//            spinny.spinny(currentDistance);
+//            if (gamepad2.a) {
+//                double dis = vision.getCurrentDistance();
+//                spinny.spinny(dis);
+//            } else if (gamepad2.b) {
+//                spinny.spinny(-1);
+//            }else{
+//                spinny.spinny(0);
+//            }
 
             // --- Intake Control ---
             if (gamepad2.x) {
