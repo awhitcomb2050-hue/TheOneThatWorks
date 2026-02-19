@@ -11,8 +11,8 @@ public class flywheel {
     private DcMotorEx shootyMotor1;
     private DcMotorEx shootyMotor2;
     private LimelightVision vision;
-    private final double slope = 0.0083;
-    private final double intercept = 0.3008;
+    private final double slope = 0.00089509;
+    private final double intercept = .615;
 
     public flywheel(HardwareMap hardwareMap) {
         shootyMotor1 = hardwareMap.get(DcMotorEx.class, "shootyMotor1");

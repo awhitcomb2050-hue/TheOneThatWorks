@@ -2,10 +2,14 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import static com.qualcomm.robotcore.hardware.HardwareDevice.Manufacturer.LimelightVision;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.drive.LimelightVision;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
@@ -35,6 +39,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap);
         spin = new intake(hardwareMap);
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
+
         vision = new LimelightVision(limelight, telemetry);
         vision.init();
 
@@ -50,25 +55,27 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             drive.drive(y, x, rx);
 
 //             --- flywheel Control ---
-            if (gamepad2.a) {
-//                double power = vision.getTargetPower();
-                spinny.spinny(.78);
-            } else if (gamepad2.b) {
-                spinny.spinny(-1);
-            } else {
-                spinny.stop();
-            }
-//            }
-//            double currentDistance = vision.getCurrentDistance(); // Get distance from your vision system
-//            spinny.spinny(currentDistance);
 //            if (gamepad2.a) {
-//                double dis = vision.getCurrentDistance();
-//                spinny.spinny(dis);
+//                spinny.spinny(.75);
+//
 //            } else if (gamepad2.b) {
 //                spinny.spinny(-1);
-//            }else{
-//                spinny.spinny(0);
+//            } else {
+//                spinny.stop();
 //            }
+////            }
+            double slope = 0.00110;
+            double intercept = .594;
+            double power = (slope * vision.getCurrentDistance()) + intercept;
+            if (gamepad2.a) {
+
+                spinny.spinny(power);
+
+            } else if (gamepad2.b) {
+                spinny.spinny(-1);
+            }else{
+                spinny.spinny(0);
+            }
 
             // --- Intake Control ---
             if (gamepad2.x) {

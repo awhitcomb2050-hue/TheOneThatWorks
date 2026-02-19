@@ -30,16 +30,14 @@ public class bigtriangleblue  extends LinearOpMode {
 
         waitForStart();
         if (opModeIsActive()) {
-            leftFront.setPower(-1);
-            rightFront.setPower(-1);
-            leftRear.setPower(-1);
-            rightRear.setPower(-1);
+            leftFront.setPower(-.6);
+            rightFront.setPower(-.6);
+            leftRear.setPower(-.6);
+            rightRear.setPower(-.6);
+            sleep(1000);
             shootyMotor1.setPower(1);
             shootyMotor2.setPower(1);
-            sleep(80);
-            intankeMotor.setPower(1);
-            shootyMotor1.setPower(1);
-            shootyMotor2.setPower(1);
+            intankeMotor.setPower(-1);
 
             sleep(1000);
             stop();
