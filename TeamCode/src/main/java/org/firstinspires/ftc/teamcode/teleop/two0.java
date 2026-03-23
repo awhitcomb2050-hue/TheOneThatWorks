@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.drive.LimelightVision;
+import org.firstinspires.ftc.teamcode.drive.LimelightVision2;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.flywheel;
 import org.firstinspires.ftc.teamcode.drive.intake;
@@ -23,7 +24,7 @@ public class two0 extends LinearOpMode {
     private servo purple;
     private MecanumDrive drive;
     private intake spin;
-    private LimelightVision vision;
+    private LimelightVision2 vision;
     private Limelight3A limelight;
 
     @Override
@@ -35,9 +36,8 @@ public class two0 extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap);
         spin = new intake(hardwareMap);
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        vision = new LimelightVision(limelight, telemetry);
+        vision = new LimelightVision2(limelight, telemetry);
         vision.init();
-        limelight.pipelineSwitch(1);
 
         waitForStart();
 
@@ -50,20 +50,24 @@ public class two0 extends LinearOpMode {
             double rx = gamepad1.right_stick_x;
             drive.drive(y, x, rx);
 
-            // flywheel
-//            double currentDistance = vision.getCurrentDistance(); // Get distance from your vision system
-//            spinny.spinny(currentDistance);
+//             --- flywheel Control ---
 //            if (gamepad2.a) {
-//                double dis = vision.getCurrentDistance();
-//                spinny.spinny(dis);
+////                double power = vision.getTargetPower();
+//                spinny.spinny(.78);
 //            } else if (gamepad2.b) {
 //                spinny.spinny(-1);
-//            }else{
-//                spinny.spinny(0);
+//            } else {
+//                spinny.stop();
 //            }
-            if(gamepad2.a){
-                spinny.spinny(1);
-            }else if(gamepad2.b) {
+////            }
+
+            if (gamepad2.a) {
+                double slope = 0.00089509;
+                double intercept = .615;
+                int power = (int) ((slope * vision.getCurrentDistance()) + intercept);
+                spinny.spinny(power);
+
+            } else if (gamepad2.b) {
                 spinny.spinny(-1);
             }else{
                 spinny.spinny(0);

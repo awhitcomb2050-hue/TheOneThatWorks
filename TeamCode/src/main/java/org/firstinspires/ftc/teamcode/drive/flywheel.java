@@ -1,43 +1,44 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class flywheel {
 
-    private DcMotorEx shootyMotor1;
-    private DcMotorEx shootyMotor2;
+
+    public DcMotorEx shootyMotor1;
+    public DcMotorEx shootyMotor2;
     private LimelightVision vision;
-    private final double slope = 0.00089509;
-    private final double intercept = .615;
 
     public flywheel(HardwareMap hardwareMap) {
         shootyMotor1 = hardwareMap.get(DcMotorEx.class, "shootyMotor1");
         shootyMotor2 = hardwareMap.get(DcMotorEx.class, "shootyMotor2");
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
         vision = new LimelightVision(limelight, telemetry);
+//        shootyMotor1.setMode(RUN_USING_ENCODER);
+//        shootyMotor2.setMode(RUN_USING_ENCODER);
 
 
-        shootyMotor1.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
-        shootyMotor2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+
     }
 
-//        public void spinny(double distance) {
-//        double power = (slope * vision.getCurrentDistance()) + intercept;
-//
-//
-//        power = Math.max(0, Math.min(1, power));
-//
-//        shootyMotor1.setPower(power);
-//        shootyMotor2.setPower(power);
-//    }
+
+
     public void spinny(double power) {
+
         shootyMotor1.setPower(power);
         shootyMotor2.setPower(power);
+//        shootyMotor1.setVelocity(power);
+//        shootyMotor2.setVelocity(power);
+
     }
+
+
 
 
     public void stop() {

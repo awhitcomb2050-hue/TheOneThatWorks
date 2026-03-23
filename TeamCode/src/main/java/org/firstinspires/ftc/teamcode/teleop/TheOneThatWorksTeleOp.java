@@ -23,12 +23,14 @@ import java.util.List;
 
 @TeleOp(name="TheOneThatWorksTeleOp")
 public class TheOneThatWorksTeleOp extends LinearOpMode {
-    private flywheel spinny;
+    public flywheel spinny;
     private servo purple;
     private MecanumDrive drive;
     private intake spin;
     private LimelightVision vision;
     private Limelight3A limelight;
+
+
 
     @Override
     public void runOpMode() {
@@ -36,14 +38,13 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
         telemetry.update();
         purple = new servo(hardwareMap);
         spinny = new flywheel(hardwareMap);
+
         drive = new MecanumDrive(hardwareMap);
         spin = new intake(hardwareMap);
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         vision = new LimelightVision(limelight, telemetry);
         vision.init();
-
-        waitForStart();
 
 
         waitForStart();
@@ -64,17 +65,27 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 //                spinny.stop();
 //            }
 ////            }
-            double slope = 0.00110;
-            double intercept = .594;
-            double power = (slope * vision.getCurrentDistance()) + intercept;
+
             if (gamepad2.a) {
+//                double a = 0.0240922;
+//                double b = 29.72284;
+//                double c = -1456.12794;
+//                double distance = vision.getDistance();
+//                double tV = a * Math.pow(distance, 2) + b * distance + c;
+//                spinny.spinny(tV);
+//                double slope = 0.00089509;
+//                double intercept = .615;
+//                int power = (int) ((slope * vision.getCurrentDistance()) + intercept);
+//                spinny.spinny(power);
+////                spinny.spinny(.6);
+                double distance = vision.getDistance();
 
-                spinny.spinny(power);
+                double power = 0.0012 * distance + 0.599;
 
-            } else if (gamepad2.b) {
-                spinny.spinny(-1);
+
+                spinny.spinny(-power);
             }else{
-                spinny.spinny(0);
+                spinny.stop();
             }
 
             // --- Intake Control ---
@@ -88,14 +99,15 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             vision.updateTelemetry();
             telemetry.update();
             if (gamepad2.left_bumper) {
-                purple.red(1);
-                purple.blue(-1);
-            } else if (gamepad2.right_bumper) {
                 purple.red(-1);
                 purple.blue(1);
+            } else if (gamepad2.right_bumper) {
+                purple.red(1);
+                purple.blue(-1);
             }else{
                 purple.red(0);
                 purple.blue(0);
+
             }
 
         }

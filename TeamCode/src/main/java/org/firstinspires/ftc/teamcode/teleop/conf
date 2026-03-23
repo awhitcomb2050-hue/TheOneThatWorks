@@ -1,0 +1,10 @@
+leftFront - ex hub port 0
+rightFront - ex hub port 2
+leftRear - ex hub port 1
+rightRear - ex hub port 3
+
+shootyMotor1 - contorl port 0
+shootyMotor2 - control port 3
+red - control port 5
+blue - ex hub port 0
+intankeMotor - control port 2
