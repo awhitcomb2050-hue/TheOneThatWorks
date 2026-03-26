@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.drive.LimelightVision;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.drive.flywheel;
 import org.firstinspires.ftc.teamcode.drive.intake;
+import org.firstinspires.ftc.teamcode.drive.lift;
 import org.firstinspires.ftc.teamcode.drive.servo;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
@@ -28,6 +29,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
     private MecanumDrive drive;
     private intake spin;
     private LimelightVision vision;
+    private lift lifty;
     private Limelight3A limelight;
 
 
@@ -38,6 +40,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
         telemetry.update();
         purple = new servo(hardwareMap);
         spinny = new flywheel(hardwareMap);
+        lifty = new lift(hardwareMap);
 
         drive = new MecanumDrive(hardwareMap);
         spin = new intake(hardwareMap);
@@ -80,7 +83,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 ////                spinny.spinny(.6);
                 double distance = vision.getDistance();
 
-                double power = 0.0012 * distance + 0.599;
+                double power = 0.0034390 * distance + 0.467552;
 
 
                 spinny.spinny(-power);
@@ -109,6 +112,14 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
                 purple.blue(0);
 
             }
+            if (gamepad2.dpad_down) {
+                lifty.lift(-1);
+                } else if (gamepad2.dpad_up) {
+                lifty.lift(1);
+            }else{
+                lifty.lift(0);
+            }
+
 
         }
     }
