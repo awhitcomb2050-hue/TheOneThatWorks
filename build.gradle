@@ -1,8 +1,4 @@
-/**
- * Top-level build file for ftc_app project.
- *
- * It is extraordinarily rare that you will ever need to edit this file.
- */
+
 
 buildscript {
     repositories {
@@ -15,7 +11,7 @@ buildscript {
     }
 }
 
-// ADD THIS ENTIRE BLOCK
+
 configurations.configureEach {
     resolutionStrategy {
         force "org.jetbrains.kotlin:kotlin-stdlib:1.8.22"
@@ -24,9 +20,6 @@ configurations.configureEach {
     }
 }
 
-
-// This is now required because aapt2 has to be downloaded from the
-// google() repository beginning with version 3.2 of the Android Gradle Plugin
 allprojects {
     repositories {
         mavenCentral()
