@@ -25,17 +25,12 @@ public class Constants {
             .xVelocity(36.9)  // Tune with velocity tuner
             .yVelocity(26.7);
     public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
-            .leftFrontMotorName("frontLeft")
-            .rightFrontMotorName("frontRight")
-            .leftRearMotorName("backLeft")
-            .rightRearMotorName("backRight")
-//            .leftFrontEncoderDirection(com.pedropathing.localization.Encoder.Direction.FORWARD)
-//            .rightFrontMotorDirection(com.pedropathing.localization.Encoder.Direction.REVERSE)
-//            .leftRearMotorDirection(com.pedropathing.localization.Encoder.Direction.FORWARD)
-//            .rightRearMotorDirection(com.pedropathing.localization.Encoder.Direction.REVERSE)
+            .leftFrontMotorName("leftFront")
+            .rightFrontMotorName("rightFront")
+            .leftRearMotorName("leftRear")
+            .rightRearMotorName("rightRear")
             .forwardTicksToInches(1.0)
             .turnTicksToInches(1.0)
-//            .turnTicksToInches(1.0)
             .robotLength(18.0)
             .robotWidth(18.0);
 
