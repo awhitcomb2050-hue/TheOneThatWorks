@@ -48,6 +48,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 
         vision = new LimelightVision(limelight, telemetry);
         vision.init();
+        vision.pipe(0);
 
 
         waitForStart();

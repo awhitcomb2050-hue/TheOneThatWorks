@@ -80,7 +80,7 @@ public class Tuning extends SelectableOpMode {
                 p.add("Centripetal Tuner", CentripetalTuner::new);
             });
             s.folder("Tests", p -> {
-                p.add("Line", Line::new);
+                p.add("Line", Lie::new);
                 p.add("Triangle", Triangle::new);
                 p.add("Circle", Circle::new);
             });
@@ -1177,7 +1177,7 @@ class DriveTuner extends OpMode {
  * @author Harrison Womack - 10158 Scott's Bots
  * @version 1.0, 3/12/2024
  */
-class Line extends OpMode {
+class Lie extends OpMode {
     public static double DISTANCE = 40;
     private boolean forward = true;
 

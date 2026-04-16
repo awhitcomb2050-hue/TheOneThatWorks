@@ -4,8 +4,6 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import java.util.Locale;
-
 public class LimelightVision {
     private Limelight3A limelight;
     private Telemetry telemetry;
@@ -19,8 +17,10 @@ public class LimelightVision {
     }
 
     public void init() {
-        limelight.pipelineSwitch(0); // 0 for april tags for 24
         limelight.start();
+    }
+    public void pipe(double number) {
+        limelight.pipelineSwitch((int) number); // 0 for april tags for 24 red?
     }
 
     public double getDistance() {

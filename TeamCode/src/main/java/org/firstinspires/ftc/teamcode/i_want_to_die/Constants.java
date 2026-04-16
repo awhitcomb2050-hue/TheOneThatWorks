@@ -24,15 +24,18 @@ public class Constants {
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .xVelocity(36.9)  // Tune with velocity tuner
             .yVelocity(26.7);
+
+
     public static DriveEncoderConstants localizerConstants = new DriveEncoderConstants()
             .leftFrontMotorName("leftFront")
             .rightFrontMotorName("rightFront")
             .leftRearMotorName("leftRear")
             .rightRearMotorName("rightRear")
-            .forwardTicksToInches(1.0)
+            .forwardTicksToInches(.64817)
             .turnTicksToInches(1.0)
             .robotLength(18.0)
             .robotWidth(18.0);
+
 
 
 
