@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.i_want_to_die;
+package org.firstinspires.ftc.teamcode.auto;
 
 import static com.pedropathing.math.MathFunctions.quadraticFit;
-import static org.firstinspires.ftc.teamcode.i_want_to_die.Tuning.changes;
-import static org.firstinspires.ftc.teamcode.i_want_to_die.Tuning.drawCurrent;
-import static org.firstinspires.ftc.teamcode.i_want_to_die.Tuning.drawCurrentAndHistory;
-import static org.firstinspires.ftc.teamcode.i_want_to_die.Tuning.follower;
-import static org.firstinspires.ftc.teamcode.i_want_to_die.Tuning.stopRobot;
-import static org.firstinspires.ftc.teamcode.i_want_to_die.Tuning.telemetryM;
+import static org.firstinspires.ftc.teamcode.auto.Tuning.changes;
+import static org.firstinspires.ftc.teamcode.auto.Tuning.drawCurrent;
+import static org.firstinspires.ftc.teamcode.auto.Tuning.drawCurrentAndHistory;
+import static org.firstinspires.ftc.teamcode.auto.Tuning.follower;
+import static org.firstinspires.ftc.teamcode.auto.Tuning.stopRobot;
+import static org.firstinspires.ftc.teamcode.auto.Tuning.telemetryM;
 
 import android.annotation.SuppressLint;
 

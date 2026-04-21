@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.i_want_to_die;
+package org.firstinspires.ftc.teamcode.auto;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;

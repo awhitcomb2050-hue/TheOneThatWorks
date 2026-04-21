@@ -1,26 +1,18 @@
 package org.firstinspires.ftc.teamcode.auto;
-
 import static org.firstinspires.ftc.teamcode.auto.MainAuto.redbig.pathState.end;
-
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.telemetry.SelectableOpMode;
 import com.pedropathing.util.Timer;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.drive.LimelightVision;
 import org.firstinspires.ftc.teamcode.drive.flywheel;
 import org.firstinspires.ftc.teamcode.drive.intake;
 import org.firstinspires.ftc.teamcode.drive.servo;
-import org.firstinspires.ftc.teamcode.i_want_to_die.Constants;
-import org.firstinspires.ftc.teamcode.i_want_to_die.Tuning;
 
 @Autonomous(name = "Main Autonomous Selector", group = "Autonomous")
 public class MainAuto extends SelectableOpMode {
