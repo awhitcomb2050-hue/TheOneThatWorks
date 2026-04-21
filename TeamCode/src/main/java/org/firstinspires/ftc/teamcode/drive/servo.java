@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class servo {
-    private CRServo blue, red;
+    public static CRServo red,blue ;
 
 
     public servo(HardwareMap hardwareMap){
@@ -18,10 +18,10 @@ public class servo {
         blue.setDirection(DcMotorSimple.Direction.REVERSE);
 
     }
-    public void red(double power ){
+    public static void red(double power){
         red.setPower(power);
     }
-    public void blue(double power ){
+    public static void blue(double power ){
         blue.setPower(power);
     }
 }
