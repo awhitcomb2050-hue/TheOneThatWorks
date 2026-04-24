@@ -188,7 +188,7 @@ public class MainAuto extends SelectableOpMode {
 
 
     @Autonomous
-    static class bluesmall extends OpMode {
+    public static class bluesmall extends OpMode {
         private Follower follwer;
         private Timer pathTimer, opModeTimer;
         public flywheel spinny;
@@ -342,7 +342,7 @@ public class MainAuto extends SelectableOpMode {
     }
 
     @Autonomous
-    static class bluebig extends OpMode {
+    public static class bluebig extends OpMode {
         private Follower follwer;
         private Timer pathTimer, opModeTimer;
         public flywheel spinny;
@@ -497,7 +497,7 @@ public class MainAuto extends SelectableOpMode {
     }//blue big end
 
     @Autonomous
-    static class redbig extends OpMode {
+    public static class redbig extends OpMode {
         private Follower follwer;
         private Timer pathTimer, opModeTimer;
         public flywheel spinny;
