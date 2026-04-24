@@ -1,8 +1,15 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import static com.qualcomm.robotcore.hardware.HardwareDevice.Manufacturer.LimelightVision;
+
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.drive.LimelightVision;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
@@ -10,18 +17,15 @@ import org.firstinspires.ftc.teamcode.drive.flywheel;
 import org.firstinspires.ftc.teamcode.drive.intake;
 import org.firstinspires.ftc.teamcode.drive.lift;
 import org.firstinspires.ftc.teamcode.drive.servo;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
+import java.util.List;
 
 
 @TeleOp(name="two0")
 public class two0 extends LinearOpMode {
     public flywheel spinny;
     private servo purple;
-    private MecanumDrive drive;
-    private intake spin;
-    private LimelightVision vision;
-    private lift lifty;
-    private Limelight3A limelight;
-
 
 
     @Override
@@ -30,19 +34,19 @@ public class two0 extends LinearOpMode {
         telemetry.update();
         purple = new servo(hardwareMap);
         spinny = new flywheel(hardwareMap);
-        lifty = new lift(hardwareMap);
-
-        drive = new MecanumDrive(hardwareMap);
-        spin = new intake(hardwareMap);
+        lift lifty = new lift(hardwareMap);
+        MecanumDrive drive = new MecanumDrive(hardwareMap);
+        intake spin = new intake(hardwareMap);
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
-        vision = new LimelightVision(limelight, telemetry);
+        LimelightVision vision = new LimelightVision(limelight, telemetry);
         vision.init();
         vision.pipe(1);
 
 
         waitForStart();
         while (opModeIsActive()) {
+
             double y = -gamepad1.left_stick_y; // forward positive
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;

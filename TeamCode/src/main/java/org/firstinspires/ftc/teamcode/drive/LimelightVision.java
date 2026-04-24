@@ -62,10 +62,6 @@ public class LimelightVision {
         return (slope * Math.abs(currentDistance)) + intercept;
     }
 
-    public double getCurrentDistance() {
-        return currentDistance;
-    }
-
 
 
     public void setCurrentDistance(double currentDistance) {

@@ -26,12 +26,6 @@ import java.util.List;
 public class TheOneThatWorksTeleOp extends LinearOpMode {
     public flywheel spinny;
     private servo purple;
-    private MecanumDrive drive;
-    private intake spin;
-    private LimelightVision vision;
-    private lift lifty;
-    private Limelight3A limelight;
-
 
 
     @Override
@@ -40,13 +34,12 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
         telemetry.update();
         purple = new servo(hardwareMap);
         spinny = new flywheel(hardwareMap);
-        lifty = new lift(hardwareMap);
-
-        drive = new MecanumDrive(hardwareMap);
-        spin = new intake(hardwareMap);
+        lift lifty = new lift(hardwareMap);
+        MecanumDrive drive = new MecanumDrive(hardwareMap);
+        intake spin = new intake(hardwareMap);
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
-        vision = new LimelightVision(limelight, telemetry);
+        LimelightVision vision = new LimelightVision(limelight, telemetry);
         vision.init();
         vision.pipe(0);
 
