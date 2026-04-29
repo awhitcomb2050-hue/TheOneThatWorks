@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-    .mass(9.5)
+    .mass(9.3)
     .forwardZeroPowerAcceleration(-7900.8389900961017)
     .lateralZeroPowerAcceleration(-9277.065387593542);
 
@@ -43,7 +43,7 @@ public class Constants {
             .forwardEncoderDirection(Encoder.REVERSE)
             .strafeEncoderDirection(Encoder.FORWARD);
 
-    
+
 
 
 

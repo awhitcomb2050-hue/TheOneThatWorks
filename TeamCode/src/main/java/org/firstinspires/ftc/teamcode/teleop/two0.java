@@ -4,6 +4,8 @@ import static com.qualcomm.robotcore.hardware.HardwareDevice.Manufacturer.Limeli
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import com.acmerobotics.dashboard.canvas.Canvas;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -26,6 +28,9 @@ import java.util.List;
 public class two0 extends LinearOpMode {
     public flywheel spinny;
     private servo purple;
+    private boolean pdu;
+    private boolean pdd;
+
 
 
     @Override
@@ -46,22 +51,28 @@ public class two0 extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
+            if(gamepad1.dpad_up && !pdu ){
+                vision.kP *= 2;
+            }
+            pdu= gamepad1.dpad_up;
+            if(gamepad1.dpad_down && !pdd){
+                vision.kP /= 1.5;
+            }
+            pdd = gamepad1.dpad_down;
+
 
             double y = -gamepad1.left_stick_y; // forward positive
             double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
-            drive.drive(y, x, rx);
+            if(gamepad1.left_bumper) {
 
-//             --- flywheel Control ---
-//            if (gamepad2.a) {
-//                spinny.spinny(.75);
-//
-//            } else if (gamepad2.b) {
-//                spinny.spinny(-1);
-//            } else {
-//                spinny.stop();
-//            }
-////            }
+                rx= vision.aim();
+            }
+            drive.drive(y, x, rx);
+            telemetry.addData("kp" , vision.kP);
+            telemetry.addData("rx", rx);
+
+
 
             if (gamepad2.a) {
 //                double a = 0.0240922;
@@ -117,4 +128,10 @@ public class two0 extends LinearOpMode {
 
         }
     }
+
+    public void drawRobotPacket (double x, double y, double heading) {
+        TelemetryPacket packet = new TelemetryPacket();
+        Canvas fieldOverlay= packet.fieldOverlay();
+    }
+
 }

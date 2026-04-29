@@ -8,6 +8,9 @@ public class LimelightVision {
     private Limelight3A limelight;
     private Telemetry telemetry;
     private double currentDistance = 0;
+    public double kI = 0;
+    public double kP = 1;
+    public double kD = 0;
 
 
     public LimelightVision(Limelight3A limelight, Telemetry telemetry) {
@@ -37,6 +40,7 @@ public class LimelightVision {
             double goalHeight = 29.5;
             double mountAngleDegrees = 0; //tilt
 
+
             // Calculate Distance
             double angleToGoalDegrees =  mountAngleDegrees +ty;
             double angleToGoalRadians = angleToGoalDegrees * (3.14159/180);
@@ -60,6 +64,16 @@ public class LimelightVision {
         double intercept = 0.3;
 
         return (slope * Math.abs(currentDistance)) + intercept;
+    }
+    public double aim(){
+        LLResult result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
+            return kP * result.getTx();
+        }else{
+            return 0;
+        }
+
+
     }
 
 

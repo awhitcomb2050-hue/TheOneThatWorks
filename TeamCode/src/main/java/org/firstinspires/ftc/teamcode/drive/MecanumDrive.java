@@ -38,4 +38,10 @@ public class MecanumDrive {
         rightFront.setPower(frontRightPower);
         rightRear.setPower(backRightPower);
     }
+    public void drive1(double power) {
+        leftFront.setPower(power);
+        leftRear.setPower(power);
+        rightFront.setPower(power);
+        rightRear.setPower(power);
+    }
 }
