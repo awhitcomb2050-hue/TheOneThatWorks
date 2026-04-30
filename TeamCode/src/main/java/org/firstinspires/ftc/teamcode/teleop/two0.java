@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.LimelightVision;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
@@ -30,6 +31,8 @@ public class two0 extends LinearOpMode {
     private servo purple;
     private boolean pdu;
     private boolean pdd;
+    private boolean pdr;
+    private boolean pdl;
 
 
 
@@ -50,27 +53,44 @@ public class two0 extends LinearOpMode {
 
 
         waitForStart();
+        ElapsedTime timer = new ElapsedTime();
         while (opModeIsActive()) {
             if(gamepad1.dpad_up && !pdu ){
                 vision.kP *= 2;
             }
             pdu= gamepad1.dpad_up;
+
             if(gamepad1.dpad_down && !pdd){
                 vision.kP /= 1.5;
             }
             pdd = gamepad1.dpad_down;
 
+            if(gamepad1.dpad_right && !pdr ){
+                vision.kD *= 2;
+            }
+            pdr= gamepad1.dpad_right ;
+
+            if(gamepad1.dpad_left && !pdl){
+                vision.kD /= 1.5;
+            }
+            pdl = gamepad1.dpad_left;
+
+
 
             double y = -gamepad1.left_stick_y; // forward positive
-            double x = gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
+            double x = -gamepad1.left_stick_x;
+            double rx = gamepad1.right_stick_x * .7  ;
             if(gamepad1.left_bumper) {
 
-                rx= vision.aim();
+                double rxnew= vision.aim(timer.seconds());
+                if(rxnew != 0.0   ){
+                    rx = rxnew;
+                }
             }
             drive.drive(y, x, rx);
-            telemetry.addData("kp" , vision.kP);
-            telemetry.addData("rx", rx);
+            telemetry.addData("kp" , "%.6f deg",vision.kP);
+            telemetry.addData("rx","%.6f deg", rx);
+            telemetry.addData("kd","%.6f deg", vision.kD );
 
 
 

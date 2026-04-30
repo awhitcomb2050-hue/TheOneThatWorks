@@ -9,8 +9,10 @@ public class LimelightVision {
     private Telemetry telemetry;
     private double currentDistance = 0;
     public double kI = 0;
-    public double kP = 1;
-    public double kD = 0;
+    public double kP = 0.020504 ; // coeffect proportationlyt silly cole math
+    public double kD = 0.0008;
+    public double pError = 0;
+    public double pTime = 0;
 
 
     public LimelightVision(Limelight3A limelight, Telemetry telemetry) {
@@ -65,10 +67,21 @@ public class LimelightVision {
 
         return (slope * Math.abs(currentDistance)) + intercept;
     }
-    public double aim(){
+    public double aim(double time){
         LLResult result = limelight.getLatestResult();
+
         if (result != null && result.isValid()) {
-            return kP * result.getTx();
+            double error = result.getTx();
+            double de = error - pError;
+            pError = error;
+
+            double dt = time - pTime;
+            pTime = time;
+            if (dt == 0) {
+                return kP * error;
+            }else{
+                return kP * error + kD * de / dt;
+            }
         }else{
             return 0;
         }
