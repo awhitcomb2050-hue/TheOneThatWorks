@@ -4,12 +4,15 @@ import static com.qualcomm.robotcore.hardware.HardwareDevice.Manufacturer.Limeli
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import com.acmerobotics.dashboard.canvas.Canvas;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.LimelightVision;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
@@ -22,10 +25,15 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import java.util.List;
 
 
-@TeleOp(name="TheOneThatWorksTeleOp")
-public class TheOneThatWorksTeleOp extends LinearOpMode {
+@TeleOp(name="TheOneThatWorlsTeleOp")
+public class TheOneThatWorlsTeleOp extends LinearOpMode {
     public flywheel spinny;
     private servo purple;
+    private boolean pdu;
+    private boolean pdd;
+    private boolean pdr;
+    private boolean pdl;
+
 
 
     @Override
@@ -45,23 +53,46 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 
 
         waitForStart();
+        ElapsedTime timer = new ElapsedTime();
         while (opModeIsActive()) {
+            if(gamepad1.dpad_up && !pdu ){
+                vision.kP *= 2;
+            }
+            pdu= gamepad1.dpad_up;
+
+            if(gamepad1.dpad_down && !pdd){
+                vision.kP /= 1.5;
+            }
+            pdd = gamepad1.dpad_down;
+
+            if(gamepad1.dpad_right && !pdr ){
+                vision.kD *= 2;
+            }
+            pdr= gamepad1.dpad_right ;
+
+            if(gamepad1.dpad_left && !pdl){
+                vision.kD /= 1.5;
+            }
+            pdl = gamepad1.dpad_left;
+
+
 
             double y = -gamepad1.left_stick_y; // forward positive
-            double x = gamepad1.left_stick_x;
-            double rx = gamepad1.right_stick_x;
-            drive.drive(y, x, rx);
+            double x = -gamepad1.left_stick_x;
+            double rx = gamepad1.right_stick_x * .7  ;
+            if(gamepad1.left_bumper) {
 
-//             --- flywheel Control ---
-//            if (gamepad2.a) {
-//                spinny.spinny(.75);
-//
-//            } else if (gamepad2.b) {
-//                spinny.spinny(-1);
-//            } else {
-//                spinny.stop();
-//            }
-////            }
+                double rxnew= vision.aim(timer.seconds());
+                if(rxnew != 0.0   ){
+                    rx = rxnew;
+                }
+            }
+            drive.drive(y, x, rx);
+            telemetry.addData("kp" , "%.6f deg",vision.kP);
+            telemetry.addData("rx","%.6f deg", rx);
+            telemetry.addData("kd","%.6f deg", vision.kD );
+
+
 
             if (gamepad2.a) {
 //                double a = 0.0240922;
@@ -108,7 +139,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             }
             if (gamepad2.dpad_down) {
                 lifty.lift(-1);
-                } else if (gamepad2.dpad_up) {
+            } else if (gamepad2.dpad_up) {
                 lifty.lift(1);
             }else{
                 lifty.lift(0);
@@ -117,4 +148,10 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 
         }
     }
+
+    public void drawRobotPacket (double x, double y, double heading) {
+        TelemetryPacket packet = new TelemetryPacket();
+        Canvas fieldOverlay= packet.fieldOverlay();
+    }
+
 }
