@@ -9,10 +9,10 @@
 //import com.qualcomm.hardware.limelightvision.Limelight3A;
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 //import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-//import org.firstinspires.ftc.teamcode.drive.LimelightVision;
-//import org.firstinspires.ftc.teamcode.drive.flywheel;
-//import org.firstinspires.ftc.teamcode.drive.intake;
-//import org.firstinspires.ftc.teamcode.drive.servo;
+//import org.firstinspires.ftc.teamcode.drive.deocde_functions.LimelightVision;
+//import org.firstinspires.ftc.teamcode.drive.deocde_functions.flywheel;
+//import org.firstinspires.ftc.teamcode.drive.deocde_functions.intake;
+//import org.firstinspires.ftc.teamcode.drive.deocde_functions.servo;
 //
 //@Autonomous(name = "Main Autonomous Selector", group = "Autonomous")
 //public class MainAuto extends SelectableOpMode {
