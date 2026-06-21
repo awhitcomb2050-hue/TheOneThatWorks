@@ -70,7 +70,7 @@
 //
 //
 //
-//            double y = -gamepad1.left_stick_y; // forward positive
+//            double y = -gamepad1. left_stick_y; // forward positive
 //            double x = -gamepad1.left_stick_x;
 //            double rx = gamepad1.right_stick_x * .7  ;
 //            drawRobotPacket(x,y,rx);
