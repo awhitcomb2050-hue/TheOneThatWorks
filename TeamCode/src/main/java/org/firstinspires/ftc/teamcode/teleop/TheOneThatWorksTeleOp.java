@@ -7,8 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.auto.Constants;
 import org.firstinspires.ftc.teamcode.functions.Mecanum;
+import org.firstinspires.ftc.teamcode.functions.intake;
 
-            @TeleOp(name="TheOneThatWorksTeleOp")
+@TeleOp(name="TheOneThatWorksTeleOp")
             public class TheOneThatWorksTeleOp extends LinearOpMode {
 
                 private Follower follower;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.functions.Mecanum;
                 @Override
                 public void runOpMode() throws InterruptedException {
                     Mecanum drive = new Mecanum(hardwareMap);
+                    intake spin = new intake(hardwareMap);
 
                     // Initialize the Follower which handles X/Y localization
                     follower = Constants.createFollower(hardwareMap);
@@ -42,6 +44,12 @@ import org.firstinspires.ftc.teamcode.functions.Mecanum;
                         telemetry.addData("Y Position", currentPose.getY());
                         telemetry.addData("Heading", Math.toDegrees(currentPose.getHeading()));
                         telemetry.update();
+                        if(gamepad2.a) {
+                            spin.spin(.7);
+                        }else{
+                            spin.spin(0);
+
+                        }
                     }
                 }
             }
