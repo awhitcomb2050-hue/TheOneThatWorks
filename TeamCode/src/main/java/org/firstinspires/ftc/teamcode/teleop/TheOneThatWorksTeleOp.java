@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -49,7 +50,7 @@ import org.firstinspires.ftc.teamcode.functions.intake;
                         }else{
                             spin.spin(0);
 
-                        }
-                    }
-                }
-            }
+                        } //statment
+                    }//opmode
+                }//run mode
+            }// public class
