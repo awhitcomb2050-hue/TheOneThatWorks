@@ -50,7 +50,7 @@ import org.firstinspires.ftc.teamcode.functions.intake;
                         }else{
                             spin.spin(0);
 
-                        } //statment
+                        } //statement
                     }//opmode
                 }//run mode
             }// public class
