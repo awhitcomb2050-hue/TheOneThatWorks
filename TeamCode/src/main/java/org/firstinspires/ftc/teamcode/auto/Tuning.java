@@ -255,7 +255,7 @@ class ForwardTuner extends OpMode {
  * necessary ticks to inches multiplier. This displayed multiplier is what's necessary to scale the
  * robot's current distance in ticks to the specified distance in inches. So, to use this, run the
  * tuner, then pull/push the robot to the specified distance using a ruler on the ground. When you're
- * at the end of the distance, record the ticks to inches multiplier. Feel free to run multiple trials
+ * at the end of the distance, record the ticks to inc11hes multiplier. Feel free to run multiple trials
  * and average the results. Then, input the multiplier into the strafe ticks to inches in your
  * localizer of choice.
  *
