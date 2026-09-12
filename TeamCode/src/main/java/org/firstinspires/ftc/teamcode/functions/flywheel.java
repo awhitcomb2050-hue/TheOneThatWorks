@@ -18,7 +18,9 @@ public class flywheel {
         flywheel.setPower(power);
 
     }
-
+    public static boolean isStopped() {
+        return flywheel.getPower() == 0.0;
+    }
 
 }
 

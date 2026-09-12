@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.Pose;
+// FIX: Updated to the new Pedro 3 Math package path
+import com.pedropathing.math.Pose;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,63 +14,61 @@ import org.firstinspires.ftc.teamcode.functions.intake;
 import org.firstinspires.ftc.teamcode.functions.intakeServo;
 
 @TeleOp(name="TheOneThatWorksTeleOp")
-            public class TheOneThatWorksTeleOp extends LinearOpMode {
+public class TheOneThatWorksTeleOp extends LinearOpMode {
 
-                private Follower follower;
-
-                @Override
-                public void runOpMode() throws InterruptedException {
-                    Mecanum drive = new Mecanum(hardwareMap);
-                    intake setIntake = new intake(hardwareMap);
-                    flywheel setFlywheel = new flywheel(hardwareMap);
-                    intakeServo setIntakeA = new intakeServo(hardwareMap);
-
-                    // Initialize the Follower which handles X/Y localization
-                    follower = Constants.createFollower(hardwareMap);
-                    follower.setStartingPose(new Pose(0, 0, 0));
-
-                    waitForStart();
-
-                    // Start TeleOp drive tracking
-                    follower.startTeleopDrive();
-
-                    while (opModeIsActive()) {
-                        // Update the position math
-                        follower.update();
-
-                        double y = gamepad1.left_stick_y;
-                        double x = -gamepad1.left_stick_x;
-                        double rx = gamepad1.right_stick_x;
-
-                        drive.drive(y, x, rx);
-
-                        // Get and display coordinates
-                        Pose currentPose = follower.getPose();
-                        telemetry.addData("X Position", currentPose.getX());
-                        telemetry.addData("Y Position", currentPose.getY());
-                        telemetry.addData("Heading", Math.toDegrees(currentPose.getHeading()));
-                        telemetry.update();
+    private Follower follower;
 
 
-                        if(gamepad2.a) {
-                            intake.setIntake(.7);
-                        }else{
-                            intake.setIntake(0);
-                        }//intake
+    @Override
+    public void runOpMode() throws InterruptedException {
+        Mecanum drive = new Mecanum(hardwareMap);
+        intake setIntake = new intake(hardwareMap);
+        flywheel setFlywheel = new flywheel(hardwareMap);
+        intakeServo setIntakeServo = new intakeServo(hardwareMap);
 
-                        if(gamepad2.b) {
-                            intakeServo.setIntakeA(1);
-                        }else{
-                            intakeServo.setIntakeA(0);
-                        }//servo
+        follower = Constants.createFollower(hardwareMap);
+        follower.setPose(new Pose(0, 0, 0)); // pedro 3 uses setPose() instead of setStartingPose()
 
-                        if(gamepad2.x) {
-                            flywheel.setFlywheel(1);
-                        }else{
-                            flywheel.setFlywheel(0);
-                        }//flywheel
+        waitForStart();
+
+        while (opModeIsActive()) {
+
+            follower.update();
+
+            // Drive inputs
+            double y = gamepad1.left_stick_y;
+            double x = -gamepad1.left_stick_x;
+            double rx = gamepad1.right_stick_x;
+
+            drive.drive(y, x, rx);
 
 
-                    }//opmode
-                }//run mode
-            }// public class
+            Pose currentPose = follower.pose();
+            telemetry.addData("X Position", currentPose.x());
+            telemetry.addData("Y Position", currentPose.y());
+            telemetry.addData("Heading", Math.toDegrees(currentPose.heading()));
+            telemetry.update();
+
+
+            if (gamepad2.a) {
+                intake.setIntake(0.7);
+            } else {
+                intake.setIntake(0);
+            }
+
+
+            if (gamepad2.b) {
+                intakeServo.setIntakeA(1);
+            } else {
+                intakeServo.setIntakeA(0);
+            }
+
+
+            if (gamepad2.x) {
+                flywheel.setFlywheel(1);
+            } else {
+                flywheel.setFlywheel(0);
+            }
+        }
+    }
+}

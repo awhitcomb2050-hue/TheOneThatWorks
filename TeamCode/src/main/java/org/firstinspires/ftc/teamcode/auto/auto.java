@@ -1,62 +1,96 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import static com.pedropathing.api.Paths.curve;
+import static com.pedropathing.api.Paths.line;
+import static com.pedropathing.ivy.Scheduler.schedule;
+import static com.pedropathing.ivy.commands.Commands.waitUntil;
+import static com.pedropathing.ivy.groups.Groups.sequential;
+import static com.pedropathing.ivy.pedro.PedroCommands.follow;
+import static com.pedropathing.ivy.commands.Commands.instant;
+import static com.pedropathing.ivy.commands.Commands.waitMs;
+
+import com.pedropathing.api.PoseFactory;
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.FuturePose;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.PathChain;
-import com.pedropathing.util.Timer;
+import com.pedropathing.ivy.Command;
+import com.pedropathing.ivy.Scheduler;
+import com.pedropathing.math.Pose;
+import com.pedropathing.paths.Path;
+import com.pedropathing.utils.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.apache.commons.math3.geometry.Point;
+import org.firstinspires.ftc.teamcode.functions.flywheel;
 
-@Autonomous
-public class auto extends OpMode {
+@Autonomous(name = "auto", group = "Autonomous")
+public class auto extends LinearOpMode {
+
     private Follower follower;
-    private Timer pathTimer, opModeTimer;
+    private Timer pathTimer;
 
-    public enum PathState {
-        // START POSITON_END POSITION
-        // DRIVE > MOVEMOVENT STATE
-        // SHOOT > ATTEMPT TO SCORE THE ARTIFACT
-        DRIVE_STARTPO_SHOOT_POS,
-        SHOOT_PRELOAD
+
+    private final PoseFactory poseFactory = PoseFactory.degrees();
+
+
+
+
+    private final Pose start = poseFactory.of(4.5, 31.3, 90);
+    private final Pose path1 = poseFactory.of(18.2141, 58.5081, 0);
+    private final Pose path1Control1 = poseFactory.of(59.7846, 57.9974, 0);
+    private final Pose point2 = poseFactory.of(24.905, 58.2603, 0);
+    private final Pose point3 = poseFactory.of(34.12, 10.7382, 0);
+
+
+
+    public Command autoRoutine() {
+        return sequential(
+                follow(follower, path1()),
+                instant(() -> flywheel.setFlywheel(1.0)),
+                waitMs(5000),
+                instant(() -> flywheel.setFlywheel(0.0)),
+                waitUntil(() -> flywheel.isStopped()),
+                //before moving on to path 2
+                follow(follower, path2()),
+                follow(follower, path3())
+
+        );
     }
 
-    PathState pathState;
+    @Override
+    public void runOpMode() {
+        Scheduler.reset();
+        follower.setPose(start);
+        follower.update();
+         new flywheel(hardwareMap);
 
+        waitForStart();
+        schedule(autoRoutine());
 
+        while (opModeIsActive()) {
+            follower.update();
+            Scheduler.execute();
+            telemetry.addData("x", follower.pose().x());
+            telemetry.addData("y", follower.pose().y());
+            telemetry.addData("heading", follower.pose().heading());
 
-    private final Pose start = new Pose(10.5, 35, Math.toRadians(90));
-    private final Pose point1 = new Pose(10.5, 35, Math.toRadians(0));
-    private final Pose point2 = new Pose(56, 35.9, Math.toRadians (90));
-    private final Pose point3 = new Pose(32.3393, 35.9574, Math.toRadians (90));
-    private final Pose point4= new Pose(32.3126, 106.2093, Math.toRadians (180));
-    private final Pose point5 = new Pose(10.1786, 106.3669, Math.toRadians (0));
+            if (follower.currentPath() != null) {
+                telemetry.addData("Current path distance remaining", follower.distanceToEndpoint());
+                telemetry.addData("Path number", follower.pathIndex());
+            }
 
-    private  PathChain startPath;
-    private PathChain path1;
-    private PathChain path2;
-    private PathChain path3;
-    private PathChain path4;
-    public enum AutoState {
-        PATH1, PATH2, PATH3, PATH4, STOP
+            telemetry.update();
+        }
     }
 
-    public void buildPaths() {
-        // Path 1: From Start to Score Position
-         startPath= follower.pathBuilder()
-                .addPath(new BezierLine((FuturePose) start, (FuturePose) point1))
-                .setLinearHeadingInterpolation(start.getHeading(), point1.getHeading())
-                .build();
-//    @Override
-//    public void init() {
-//
-//    }
-//
-//    @Override
-//    public void loop() {
 
+    public Path path1() {
+        return curve(start, path1Control1, path1).constant(path1);
+    }
+
+    public Path path2() {
+        return line(path1, point2).constant(point2);
+    }
+
+    public Path path3() {
+        return line(point2, point3).constant(point3);
     }
 }
