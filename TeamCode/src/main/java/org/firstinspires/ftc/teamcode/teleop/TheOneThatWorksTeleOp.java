@@ -8,7 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.auto.Constants;
 import org.firstinspires.ftc.teamcode.functions.Mecanum;
+import org.firstinspires.ftc.teamcode.functions.flywheel;
 import org.firstinspires.ftc.teamcode.functions.intake;
+import org.firstinspires.ftc.teamcode.functions.intakeServo;
 
 @TeleOp(name="TheOneThatWorksTeleOp")
             public class TheOneThatWorksTeleOp extends LinearOpMode {
@@ -18,7 +20,9 @@ import org.firstinspires.ftc.teamcode.functions.intake;
                 @Override
                 public void runOpMode() throws InterruptedException {
                     Mecanum drive = new Mecanum(hardwareMap);
-                    intake spin = new intake(hardwareMap);
+                    intake setIntake = new intake(hardwareMap);
+                    flywheel setFlywheel = new flywheel(hardwareMap);
+                    intakeServo setIntakeA = new intakeServo(hardwareMap);
 
                     // Initialize the Follower which handles X/Y localization
                     follower = Constants.createFollower(hardwareMap);
@@ -45,12 +49,27 @@ import org.firstinspires.ftc.teamcode.functions.intake;
                         telemetry.addData("Y Position", currentPose.getY());
                         telemetry.addData("Heading", Math.toDegrees(currentPose.getHeading()));
                         telemetry.update();
-                        if(gamepad2.a) {
-                            spin.spin(.7);
-                        }else{
-                            spin.spin(0);
 
-                        } //statement
+
+                        if(gamepad2.a) {
+                            intake.setIntake(.7);
+                        }else{
+                            intake.setIntake(0);
+                        }//intake
+
+                        if(gamepad2.b) {
+                            intakeServo.setIntakeA(1);
+                        }else{
+                            intakeServo.setIntakeA(0);
+                        }//servo
+
+                        if(gamepad2.x) {
+                            flywheel.setFlywheel(1);
+                        }else{
+                            flywheel.setFlywheel(0);
+                        }//flywheel
+
+
                     }//opmode
                 }//run mode
             }// public class

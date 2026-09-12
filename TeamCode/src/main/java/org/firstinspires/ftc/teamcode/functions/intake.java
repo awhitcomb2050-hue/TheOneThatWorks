@@ -12,7 +12,7 @@ public class intake {
 
     }
 
-    public void spin(double power) {
+    public static void setIntake(double power) {
         intakeA.setPower(-power);
     }
 }
