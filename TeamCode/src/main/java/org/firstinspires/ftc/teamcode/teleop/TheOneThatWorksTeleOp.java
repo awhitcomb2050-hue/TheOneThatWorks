@@ -33,7 +33,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
         LimelightVision vision = new LimelightVision(limelight, telemetry);
         vision.init();
         vision.pipe(0);
-
+        waitForStart();
         while (opModeIsActive()) {
 // Inside your robot initialization or follower setup:
 
