@@ -1,3 +1,5 @@
+apply plugin: 'com.android.application'
+
 //
 // build.gradle in TeamCode
 //
@@ -8,33 +10,20 @@
 // please think carefully as to whether such customizations are really necessary
 // before doing so.
 
-
 // Custom definitions may go here
 
 // Include common definitions from above.
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
-//apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
 
     packagingOptions {
-        jniLibs {
-            pickFirsts += ['**/*.so']
-        }
         jniLibs.useLegacyPackaging true
     }
-//    kotlinOptions {
-//        jvmTarget = '21'
-//    }
 }
 
 dependencies {
     implementation project(':FtcRobotController')
-    implementation 'androidx.core:core-ktx:1.19.0'
-    implementation 'com.google.mlkit:pose-detection-common:17.0.0'
-    implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7'
-    implementation 'com.acmerobotics.roadrunner:core:0.5.6'
 }
