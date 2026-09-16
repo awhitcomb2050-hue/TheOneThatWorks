@@ -64,7 +64,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             } else {
                 intake.setIntake(0);
             }
-
+//idk da freak
 
             if (gamepad2.b) {
                 intakeServo.setIntakeA(1);
