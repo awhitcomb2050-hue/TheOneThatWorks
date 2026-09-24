@@ -73,7 +73,7 @@ public class auto extends LinearOpMode {
             telemetry.addData("heading", follower.pose().heading());
 
             if (follower.currentPath() != null) {
-                telemetry.addData("Current path distance remaining", follower.distanceToEndpoint());
+                telemetry.addData("Current path distance[ remaining", follower.distanceToEndpoint());
                 telemetry.addData("Path number", follower.pathIndex());
             }
 
