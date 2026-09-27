@@ -21,24 +21,16 @@ public class ApriltagZoe {
 
     public void april23(boolean yes) {
         LLResult result = limelight.getLatestResult();
-        if (result != null) {
-            if (result.isValid()) {
+        int target = 23;
+        boolean tagFound = false;
+        if(target != 23) {
+            tagFound = false;
+            Telemetry.Item tagFound1 = (Telemetry.Item) telemetry.addLine("tag not found");
+            if (target == 23) {
+                tagFound = true;
+                Telemetry.Item tagFound2 = (Telemetry.Item) telemetry.addLine("tag found");
+
             }
-/*  this is an example of what the logic would look if its determining seeing the correct apirl tag
-public void April(int targetId) {
-                LLResult result = limelight.getLatestResult();
-
-                if (result != null && result.isValid()) {
-                    boolean tagFound = false; // if it can see it set false
-
-                    for (LLResultTypes.FiducialResult target : result.getFiducialResults()) {
-                        if (target.getFiducialId() == targetId) {
-                            tagFound = true; // if it can see it set true+
-
-
-                        }
-                    }
-                    */
         }
     }
 }
