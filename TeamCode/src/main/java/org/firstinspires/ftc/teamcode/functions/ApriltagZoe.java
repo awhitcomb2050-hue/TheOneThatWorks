@@ -33,7 +33,7 @@ public void April(int targetId) {
 
                     for (LLResultTypes.FiducialResult target : result.getFiducialResults()) {
                         if (target.getFiducialId() == targetId) {
-                            tagFound = true; // if it can see it set true
+                            tagFound = true; // if it can see it set true+
 
 
                         }
