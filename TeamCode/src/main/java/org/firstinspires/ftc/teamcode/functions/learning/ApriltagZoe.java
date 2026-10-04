@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode.functions;
+package org.firstinspires.ftc.teamcode.functions.learning;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
