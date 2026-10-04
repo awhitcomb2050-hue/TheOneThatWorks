@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.functions;
+package org.firstinspires.ftc.teamcode.functions.learning;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
 

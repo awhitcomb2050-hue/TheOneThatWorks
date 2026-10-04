@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.functions.learning;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import java.util.List;
 
 public class ApriltagZoe {
     private Limelight3A limelight;
@@ -18,18 +19,29 @@ public class ApriltagZoe {
         limelight.start();
     }
 
-    public void april23(boolean yes) {
+    public void april23() {
         LLResult result = limelight.getLatestResult();
-        int target = 23;
+        int targetId = 23;
         boolean tagFound = false;
-        if(target != 23) {
-            tagFound = false;
-            Telemetry.Item tagFound1 = (Telemetry.Item) telemetry.addLine("tag not found");
-            if (target == 23) {
-                tagFound = true;
-                Telemetry.Item tagFound2 = (Telemetry.Item) telemetry.addLine("tag found");
 
+        if (result != null && result.isValid()) {
+            List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+
+            if (fiducialResults != null) {
+                for (LLResultTypes.FiducialResult target : fiducialResults) {
+                    if (target.getFiducialId() == targetId) {
+                        tagFound = true;
+                        break;
+                    }
+                }
             }
+        }
+
+        // print data
+        if (tagFound) {
+            telemetry.addData("Status", "AprilTag 23 found");
+        } else {
+            telemetry.addData("Status", "AprilTag 23 not found :((( so sad ");
         }
     }
 }
