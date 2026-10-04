@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.functions;
+package org.firstinspires.ftc.teamcode.functions.learning;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -12,9 +12,9 @@ public class setPositions {
         testMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
     }
-    public void runMotor(int position,double speed){
+    public void runMotor(int position,double power){
      testMotor.setTargetPosition(position);
-     testMotor.setMode((DcMotor.RunMode.RUN_TO_POSITION);
+     testMotor.setMode((DcMotor.RunMode.RUN_TO_POSITION));
      testMotor.setPower(Math.abs(power));
     }
 }
