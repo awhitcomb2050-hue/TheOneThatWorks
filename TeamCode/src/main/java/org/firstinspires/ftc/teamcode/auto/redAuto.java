@@ -12,8 +12,9 @@ import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.pedropathing.paths.Path;
 
-import java.nio.file.Path;
 
 @Autonomous(name = "redAuto", group = "Autonomous")
 public class redAuto extends LinearOpMode {
@@ -37,7 +38,7 @@ public class redAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
         Scheduler.reset();
-        follower = Constants.create(hardwareMap);
+        HardwareMap hardwareMap1 = hardwareMap;
         follower.setPose(start);
         follower.update();
 
