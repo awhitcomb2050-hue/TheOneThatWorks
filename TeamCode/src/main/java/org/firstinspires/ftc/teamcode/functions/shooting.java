@@ -2,10 +2,11 @@ package org.firstinspires.ftc.teamcode.functions;
 import static org.firstinspires.ftc.teamcode.functions.shooting.shootingState.START;
 
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+@Config
 public class shooting {
 
     // internal states
@@ -46,7 +47,7 @@ public class shooting {
                 // idle waiting for start
                 intakeMotor.setPower(0);
                 transfer.setPower(0);
-                flywheel.setPower(0);
+                flywheel.setPower(.2);
                 break;
 
             case INTAKE:
