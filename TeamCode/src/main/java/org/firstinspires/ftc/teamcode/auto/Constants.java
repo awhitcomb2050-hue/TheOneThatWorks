@@ -1,82 +1,34 @@
 package org.firstinspires.ftc.teamcode.auto;
 
-import com.acmerobotics.dashboard.config.Config;
-import com.pedropathing.revhub.localizers.Encoder;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.pedropathing.revhub.localizers.PinpointConfig;
+import com.pedropathing.revhub.localizers.PinpointLocalizer;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-
-import com.pedropathing.follower.Follower;
-import com.pedropathing.algorithm.Foresight;
-import com.pedropathing.algorithm.ForesightConfig;
-import com.pedropathing.controllers.Controller;
-import com.pedropathing.revhub.drivetrains.Mecanum;
 import com.pedropathing.revhub.drivetrains.MecanumConfig;
-import com.pedropathing.revhub.localizers.TwoWheelConfig;
-import com.pedropathing.revhub.localizers.TwoWheelLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Config
 public class Constants {
 
     public static MecanumConfig drivetrainConfig = new MecanumConfig(c -> {
-        c.frontLeftName.set("leftFront");
-        c.frontRightName.set("rightFront");
-        c.backLeftName.set("leftRear");
-        c.backRightName.set("rightRear");
-
+        c.frontLeftName.set("frontLeft");
+        c.frontRightName.set("frontRight");
+        c.backLeftName.set("backLeft");
+        c.backRightName.set("backRight");
         c.frontLeftDirection.set(DcMotorSimple.Direction.REVERSE);
         c.frontRightDirection.set(DcMotorSimple.Direction.FORWARD);
-        c.backLeftDirection.set(DcMotorSimple.Direction.REVERSE);
+        c.backLeftDirection.set(DcMotorSimple.Direction.FORWARD);
         c.backRightDirection.set(DcMotorSimple.Direction.FORWARD);
     });
 
-
-    public static TwoWheelConfig localizerConfig = new TwoWheelConfig(c -> {
-        c.yPodName.set("leftRear");
-        c.xPodName.set("rightRear");
-        c.imuName.set("imu");
-
-
-        RevHubOrientationOnRobot.LogoFacingDirection up = RevHubOrientationOnRobot.LogoFacingDirection.UP;
-        RevHubOrientationOnRobot.UsbFacingDirection backward = RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
-
-        c.yPodDirection.set(Encoder.FORWARD);
-        c.xPodDirection.set(Encoder.FORWARD);
-
-
-        c.xPodOffset.set(0.0);
-        c.yPodOffset.set(0.0);
-        c.xPodOffset.set(0.0);
-        c.yPodOffset.set(0.0);
-
-
-        c.forwardTicksToInches.set(1.0);
-        c.strafeTicksToInches.set(1.0);
+    public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
+        c.name.set("pinpoint");
+        c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD);
+        c.offsetUnits.set(DistanceUnit.INCH);
+        c.xPodOffset.set(5.0);
+        c.yPodOffset.set(6.0);
+        c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        c.resetMode.set(PinpointLocalizer.ResetMode.RECALIBRATE_IMU);
     });
 
-
-    public static ForesightConfig foresightConfig = new ForesightConfig(c -> {
-
-
-        c.forwardTranslational.set(Controller.proportional(0.1));
-        c.strafeTranslational.set(Controller.proportional(0.1));
-
-
-        c.headingFeedback.set(Controller.proportional(0.1));
-
-
-        c.maxVelocityConstraint.set(1.0);
-    });
-
-
-    public static Follower createFollower(HardwareMap hardwareMap) {
-        TwoWheelLocalizer localizer = new TwoWheelLocalizer(hardwareMap, localizerConfig);
-
-        Mecanum drivetrain = new Mecanum(hardwareMap, drivetrainConfig);
-
-        Foresight foresight = new Foresight(foresightConfig);
-
-        return new Follower(localizer, drivetrain, foresight);
-    }
 }

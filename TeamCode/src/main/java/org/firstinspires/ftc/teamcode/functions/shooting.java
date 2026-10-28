@@ -20,14 +20,16 @@ public class shooting {
     private shootingState currentShootingState = START;
     private DcMotor intakeMotor;
     private DcMotor transfer;
-    private DcMotor flywheel;
+    private DcMotor flywheel1;
+    private DcMotor flywheel2;
     private ElapsedTime stateTimer = new ElapsedTime();
 
 
     public shooting(HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         transfer = hardwareMap.get(DcMotor.class, "transfer");
-        flywheel = hardwareMap.get(DcMotor.class, "flywheel");
+        flywheel1 = hardwareMap.get(DcMotor.class, "flywheel1");
+        flywheel2 = hardwareMap.get(DcMotor.class, "flywheel1");
     }
 
 
@@ -47,14 +49,16 @@ public class shooting {
                 // idle waiting for start
                 intakeMotor.setPower(0);
                 transfer.setPower(0);
-                flywheel.setPower(.2);
+                flywheel1.setPower(.2);
+                flywheel2.setPower(.2);
                 break;
 
             case INTAKE:
                 // run intake for 2s
                 if (stateTimer.seconds() >= 2.0) {
                     intakeMotor.setPower(0);     // stop intake
-                    flywheel.setPower(1.0);      // start the flywheel early
+                    flywheel1.setPower(1.0);
+                    flywheel2.setPower(1.0); // start the flywheel early
                     stateTimer.reset();          // reset timer for transfer phase
                     currentShootingState = shootingState.TRANSFER;
                 }

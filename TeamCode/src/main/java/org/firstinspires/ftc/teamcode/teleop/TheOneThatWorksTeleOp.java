@@ -12,11 +12,15 @@ import org.firstinspires.ftc.teamcode.functions.Mecanum;
 import org.firstinspires.ftc.teamcode.functions.flywheel;
 import org.firstinspires.ftc.teamcode.functions.intake;
 import org.firstinspires.ftc.teamcode.functions.intakeServo;
+import org.firstinspires.ftc.teamcode.functions.learning.shootingMath;
 //import org.firstinspires.ftc.teamcode.drive.deocde_functions.LimelightVision;
 
 @TeleOp(name="TheOneThatWorksTeleOp")
 public class TheOneThatWorksTeleOp extends LinearOpMode {
-
+    private shootingMath shooterControl;
+    private double targetVelocity = 0.0001;
+    private boolean lastDpadUp = false;
+    private boolean lastDpadDown = false;
 
 
 
@@ -24,17 +28,35 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Mecanum drive = new Mecanum(hardwareMap);
         intake setIntake = new intake(hardwareMap);
-        follower = Constants.createFollower(hardwareMap);
-        follower.setPose(new Pose(0, 0, 0)); // pedro 3 uses setPose()
+//        follower = Constants.createFollower(hardwareMap);
+//        follower.setPose(new Pose(0, 0, 0)); // pedro 3 uses setPose()
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
 
         waitForStart();
         while (opModeIsActive()) {
+            telemetry.update();
+            if (gamepad1.dpad_up /*&& !lastDpadUp*/) {
+                targetVelocity += 100;
+            }
+            if (gamepad1.dpad_down  /* && !lastDpadDown*/) {
+                targetVelocity -= 100;
+                if (targetVelocity < 0) targetVelocity = 0; // stops reverse spinning
+            }
+
+            lastDpadUp = gamepad1.dpad_up;
+            lastDpadDown = gamepad1.dpad_down;
+
+            double calculatedPower = shooterControl.findFlywheelPower(targetVelocity);
+
+            if (gamepad1.left_bumper) {
+                shootingMath.flywheel.setPower(calculatedPower);
+            } else {
+                shootingMath.flywheel.setPower(0);
+            }
 
 
-
-            follower.update();
+            //follower.update();
 
             // Drive inputs
             double y = gamepad1.left_stick_y;
@@ -44,10 +66,10 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             drive.drive(y, x, rx);
 
 
-            Pose currentPose = follower.pose();
-            telemetry.addData("X Position", currentPose.x());
-            telemetry.addData("Y Position", currentPose.y());
-            telemetry.addData("Heading", Math.toDegrees(currentPose.heading()));
+//            Pose currentPose = follower.pose();
+//            telemetry.addData("X Position", currentPose.x());
+//            telemetry.addData("Y Position", currentPose.y());
+//            telemetry.addData("Heading", Math.toDegrees(currentPose.heading()));
 
             telemetry.update();
 
