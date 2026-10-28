@@ -1,17 +1,10 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import com.pedropathing.follower.Follower;
-import com.pedropathing.math.Pose;
-
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.auto.Constants;
 import org.firstinspires.ftc.teamcode.functions.Mecanum;
-import org.firstinspires.ftc.teamcode.functions.flywheel;
-import org.firstinspires.ftc.teamcode.functions.intake;
-import org.firstinspires.ftc.teamcode.functions.intakeServo;
 import org.firstinspires.ftc.teamcode.functions.learning.shootingMath;
 //import org.firstinspires.ftc.teamcode.drive.deocde_functions.LimelightVision;
 
@@ -27,7 +20,6 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Mecanum drive = new Mecanum(hardwareMap);
-        intake setIntake = new intake(hardwareMap);
 //        follower = Constants.createFollower(hardwareMap);
 //        follower.setPose(new Pose(0, 0, 0)); // pedro 3 uses setPose()
         Limelight3A limelight = hardwareMap.get(Limelight3A.class, "limelight");
