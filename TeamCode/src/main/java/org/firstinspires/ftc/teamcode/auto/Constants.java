@@ -1,10 +1,16 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import com.pedropathing.algorithm.Algorithm;
+import com.pedropathing.drivetrain.Drivetrain;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.localization.Localizer;
 import com.pedropathing.revhub.localizers.PinpointConfig;
 import com.pedropathing.revhub.localizers.PinpointLocalizer;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.pedropathing.revhub.drivetrains.MecanumConfig;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
@@ -30,5 +36,8 @@ public class Constants {
         c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.resetMode.set(PinpointLocalizer.ResetMode.RECALIBRATE_IMU);
     });
+    public static Follower create(HardwareMap hardwareMap) {
+        return new Follower((Localizer) hardwareMap, (Drivetrain) drivetrainConfig, (Algorithm) localizerConfig);
+    }
 
 }

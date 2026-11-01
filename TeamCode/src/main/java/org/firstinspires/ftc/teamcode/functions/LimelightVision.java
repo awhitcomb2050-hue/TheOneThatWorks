@@ -1,93 +1,88 @@
-//package org.firstinspires.ftc.teamcode.drive.deocde_functions;
-//
-//import com.qualcomm.hardware.limelightvision.LLResult;
-//import com.qualcomm.hardware.limelightvision.Limelight3A;
-//import org.firstinspires.ftc.robotcore.external.Telemetry;
-//
-//public class LimelightVision {
-//    private Limelight3A limelight;
-//    private Telemetry telemetry;
-//    private double currentDistance = 0;
-//    public double kI = 0;
-//    public double kP = 0.020504 ; // coeffect proportationlyt silly cole math
-//    public double kD = 0.0008;
-//    public double pError = 0;
-//    public double pTime = 0;
-//
-//
-//    public LimelightVision(Limelight3A limelight, Telemetry telemetry) {
-//        this.limelight = limelight;
-//        this.telemetry = telemetry;
-//
-//    }
-//
-//    public void init() {
-//        limelight.start();
-//    }
-//    public void pipe(double number) {
-//        limelight.pipelineSwitch((int) number); // just one apirl tage ofr now
-//    }
-//
-//    public double getDistance() {
-//        return currentDistance;
-//    }
-//
-//    public void updateTelemetry() {
-//        LLResult result = limelight.getLatestResult();
-//
-//        // Only display if a valid target is seen
-//        if (result != null && result.isValid()) {
-//            double ty = result.getTy(); // Vertical offset
-//            double cameraHeightInches = 13.625;
-//            double goalHeight = 29.5;
-//            double mountAngleDegrees = 0; //tilt
-//
-//
-//            // Calculate Distance
-//            double angleToGoalDegrees =  mountAngleDegrees +ty;
-//            double angleToGoalRadians = angleToGoalDegrees * (3.14159/180);
-//
-//            double distance = (goalHeight - cameraHeightInches) / (Math.tan(angleToGoalRadians));
-//            setCurrentDistance(distance);
-//
-//            telemetry.addData("Distance to Tag", "%.2f inches", Math.abs(currentDistance));
-//            telemetry.addLine("--- AprilTag Detected ---");
-//            telemetry.addData("Tag ID", result.getFiducialResults());
-//            telemetry.addData("Horizontal Offset (tx)", "%.2f deg", result.getTx());
-//            telemetry.addData("Vertical Offset (ty)", "%.2f deg", result.getTy());
-//            telemetry.addData("Target Area (ta)", "%.2f%%", result.getTa());
-//        } else {
-//            telemetry.addData("Limelight", "Searching for AprilTags...");
-//        }
-//
-//    }
-//    public double aim(double time){
-//        LLResult result = limelight.getLatestResult();
-//
-//        if (result != null && result.isValid()) {
-//            double error = result.getTx();
-//            double de = error - pError;
-//            pError = error;
-//
-//            double dt = time - pTime;
-//            pTime = time;
-//            if (dt == 0) {
-//                return kP * error;
-//            }else{
-//                return kP * error + kD * de / dt;
-//            }
-//        }else{
-//            return 0;
-//        }
-//
-//
-//    }
-//
-//
-//
-//    public void setCurrentDistance(double currentDistance) {
-//        this.currentDistance = currentDistance;
-//    }
-//}
-//
-//
+package org.firstinspires.ftc.teamcode.functions;
+
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import java.util.List;
+
+public class LimelightVision {
+    private Limelight3A limelight;
+    private Telemetry telemetry;
+    private double currentDistance = 0;
+    private double avgTx = 0;
+    private double avgTy = 0;
+    private boolean targetVisible = false;
+
+    public LimelightVision(Limelight3A limelight, Telemetry telemetry) {
+        this.limelight = limelight;
+        this.telemetry = telemetry;
+    }
+
+    public void init() {
+        limelight.start();
+    }
+
+
+
+    public double getDistance() {
+        return currentDistance;
+    }
+
+    public void updateTelemetry() {
+        LLResult result = limelight.getLatestResult();
+
+        if (result != null && result.isValid()) {
+            List<LLResultTypes.FiducialResult> fiducialList = result.getFiducialResults();
+
+            if (fiducialList != null && !fiducialList.isEmpty()) {
+                double sumTx = 0;
+                double sumTy = 0;
+                int count = 0;
+
+                // Loop through visible tags up to a maximum of 4
+                for (LLResultTypes.FiducialResult fiducial : fiducialList) {
+                    sumTx += fiducial.getTargetXDegrees();
+                    sumTy += fiducial.getTargetYDegrees();
+                    count++;
+                    if (count >= 4) break;
+                }
+
+
+                avgTx = sumTx / count;
+                avgTy = sumTy / count;
+                targetVisible = true;
+
+                double cameraHeightInches = 13.625;
+                double goalHeight = 29.5;
+                double mountAngleDegrees = 0; // tilt
+
+                double angleToGoalDegrees = mountAngleDegrees + avgTy;
+                double angleToGoalRadians = angleToGoalDegrees * (Math.PI / 180.0);
+
+                double distance = (goalHeight - cameraHeightInches) / (Math.tan(angleToGoalRadians));
+                setCurrentDistance(distance);
+
+
+                telemetry.addLine("--- Multi-AprilTag Detected ---");
+                telemetry.addData("Tags Tracked in Middle", count);
+                telemetry.addData("Avg Distance to Center", "%.2f inches", Math.abs(currentDistance));
+                telemetry.addData("Avg Horizontal Center (tx)", "%.2f deg", avgTx);
+                telemetry.addData("Avg Vertical Center (ty)", "%.2f deg", avgTy);
+            } else {
+
+                avgTx = result.getTx();
+                avgTy = result.getTy();
+                targetVisible = true;
+            }
+        } else {
+            targetVisible = false;
+            telemetry.addData("Limelight", "Searching for AprilTags...");
+        }
+    }
+
+
+    public void setCurrentDistance(double currentDistance) {
+        this.currentDistance = currentDistance;
+    }
+}

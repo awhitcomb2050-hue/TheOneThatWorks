@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.auto.autos;
 
 import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
@@ -14,24 +14,9 @@ import com.pedropathing.paths.Path;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.auto.Constants;
+
 public class redAuto1 {
-    package org.firstinspires.ftc.teamcode;
-
-import static com.pedropathing.api.Paths.*;
-import com.pedropathing.api.Paths;
-
-import com.pedropathing.api.PoseFactory;
-import com.pedropathing.follower.Follower;
-import com.pedropathing.math.Pose;
-import com.pedropathing.paths.Path;
-import com.pedropathing.ivy.Command;
-import com.pedropathing.ivy.Scheduler;
-import static schedule;
-import static com.pedropathing.ivy.commands.Commands.*;
-import static sequential;
-import static follow;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
     @Autonomous(name = "redAuto1", group = "Autonomous")
     public class AutoPath extends LinearOpMode {

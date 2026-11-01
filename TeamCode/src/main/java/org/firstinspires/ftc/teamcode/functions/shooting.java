@@ -1,84 +1,102 @@
 package org.firstinspires.ftc.teamcode.functions;
-import static org.firstinspires.ftc.teamcode.functions.shooting.shootingState.START;
-
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 @Config
 public class shooting {
 
-    // internal states
     public enum shootingState {
         START,
-        INTAKE,
-        TRANSFER,
-        SHOOT
+        INTAKE,         // intake on
+        VELOCITY,       // flywheel to correct speed
+        TRANSFER_SHOOT  // shoot by turning on transfer
     }
 
-    private shootingState currentShootingState = START;
+    private shootingState currentShootingState = shootingState.START;
     private DcMotor intakeMotor;
     private DcMotor transfer;
-    private DcMotor flywheel1;
-    private DcMotor flywheel2;
+    private shootingMath shooterMathSystem;
     private ElapsedTime stateTimer = new ElapsedTime();
 
+    public static double idleVelocity = 300.0;
 
     public shooting(HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
         transfer = hardwareMap.get(DcMotor.class, "transfer");
-        flywheel1 = hardwareMap.get(DcMotor.class, "flywheel1");
-        flywheel2 = hardwareMap.get(DcMotor.class, "flywheel1");
+        shooterMathSystem = new shootingMath(hardwareMap);
     }
 
-
-    // to trigger the sequence
     public void startSequence() {
         if (currentShootingState == shootingState.START) {
-            intakeMotor.setPower(1.0);  // Turn on intake
-            stateTimer.reset();          // Reset timer for the intake phase
+            stateTimer.reset();
             currentShootingState = shootingState.INTAKE;
         }
     }
 
-    // logic
-    public void update() {
+    public void update(double distanceInches) {
+        double targetVelocity = (distanceInches > 0)
+                ? shooterMathSystem.calculateTargetVelocity(distanceInches)
+                : idleVelocity;
+
         switch (currentShootingState) {
             case START:
-                // idle waiting for start
                 intakeMotor.setPower(0);
                 transfer.setPower(0);
-                flywheel1.setPower(.2);
-                flywheel2.setPower(.2);
+
+
+                shootingMath.flywheel1.setVelocity(idleVelocity);
+                shootingMath.flywheel2.setVelocity(idleVelocity);
                 break;
 
             case INTAKE:
-                // run intake for 2s
-                if (stateTimer.seconds() >= 2.0) {
-                    intakeMotor.setPower(0);     // stop intake
-                    flywheel1.setPower(1.0);
-                    flywheel2.setPower(1.0); // start the flywheel early
-                    stateTimer.reset();          // reset timer for transfer phase
-                    currentShootingState = shootingState.TRANSFER;
-                }
-                break;
+                // intake on
+                intakeMotor.setPower(1.0);
+                transfer.setPower(0);
 
-            case TRANSFER:
-                // waiting 1s for flywheel to reach full speed then start transfer
-                if (stateTimer.seconds() >= 1.0) {
-                    transfer.setPower(0.8);      // feed into the shooter
-                    stateTimer.reset();          // reset timer for the actual shot duration
-                    currentShootingState = shootingState.SHOOT;
-                }
-                break;
+                shootingMath.flywheel1.setVelocity(idleVelocity);
+                shootingMath.flywheel2.setVelocity(idleVelocity);
 
-            case SHOOT:
-                // let it shoot
+                // intake for 1.5 sec
                 if (stateTimer.seconds() >= 1.5) {
-                    currentShootingState = shootingState.START;
+                    intakeMotor.setPower(0); // Stop intake
+                    currentShootingState = shootingState.VELOCITY;
+                }
+                break;
+
+            case VELOCITY:
+                intakeMotor.setPower(0);
+                transfer.setPower(0);
+
+                shootingMath.flywheel1.setVelocity(targetVelocity);
+                shootingMath.flywheel2.setVelocity(targetVelocity);
+
+                if (shooterMathSystem.isAtTargetVelocity()) {
+                    stateTimer.reset(); // Reset timer to track the shot duration
+                    currentShootingState = shootingState.TRANSFER_SHOOT;
+                }
+                break;
+
+            case TRANSFER_SHOOT:
+
+                shootingMath.flywheel1.setVelocity(targetVelocity);
+                shootingMath.flywheel2.setVelocity(targetVelocity);
+
+
+                transfer.setPower(1.0);
+
+
+                if (stateTimer.seconds() >= 1.5) {
+                    transfer.setPower(0);
+                    currentShootingState = shootingState.START; // Reset to safe slow idle
                 }
                 break;
         }
+    }
+
+    public shootingState getCurrentState() {
+        return currentShootingState;
     }
 }

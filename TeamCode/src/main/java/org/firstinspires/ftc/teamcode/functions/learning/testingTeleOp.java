@@ -4,6 +4,8 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.functions.shootingMath;
+
 
 @TeleOp(name="testingTeleOp")
 public class testingTeleOp extends LinearOpMode {
@@ -39,18 +41,18 @@ public class testingTeleOp extends LinearOpMode {
             lastDpadUp = gamepad1.dpad_up;
             lastDpadDown = gamepad1.dpad_down;
 
-            double calculatedPower = shooterControl.findFlywheelPower(targetVelocity);
-
-            if (gamepad1.left_bumper) {
-                shootingMath.flywheel.setPower(calculatedPower);
-            } else {
-                shootingMath.flywheel.setPower(0);
-            }
+//            double calculatedPower = shooterControl.findFlywheelPower(targetVelocity);
+//
+//            if (gamepad1.left_bumper) {
+//                shootingMath.flywheel.setPower(calculatedPower);
+//            } else {
+//                shootingMath.flywheel.setPower(0);
+//            }
 
             telemetry.addData("Target Velocity (Ticks/s)", targetVelocity);
-            telemetry.addData("Actual Velocity (Ticks/s)", shootingMath.flywheel.getVelocity());
-            telemetry.addData("Calculated Motor Power", calculatedPower);
-            telemetry.update();
+//            telemetry.addData("Actual Velocity (Ticks/s)", shootingMath.flywheel.getVelocity());
+//            telemetry.addData("Calculated Motor Power", calculatedPower);
+//            telemetry.update();
         }
     }
 }
