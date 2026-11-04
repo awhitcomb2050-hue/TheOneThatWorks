@@ -92,7 +92,7 @@ public class redAuto1 {
                         // Provide the new target coordinates to drive away
                         follower.setPose(parkingSpot);
 
-                        if (follower.atTargetPose()) {
+                        if (follower.parkingSpot()) {
                             currentStep = AutoStep.DONE;
                         }
                         break;
