@@ -51,9 +51,9 @@ public class shootingMath {
             targetVelocity = velocityInterceptC;
         }
 
-        // Cache the target velocity globally so isAtTargetVelocity() can inspect it
         this.lastTargetVelocity = targetVelocity;
 
         return targetVelocity;
     }
+
 }

@@ -20,7 +20,6 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
     private double velocityOffset = 0.0;
 
 
-    double distanceInches = limelightVisionSystem.getDistance();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -46,37 +45,43 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
             double rx = gamepad1.right_stick_x;
 
             drive.drive(y, x, rx);
-
-
+            shooter.update(limelightVisionSystem.getDistance());
+            if (gamepad1.a) {
+                shooter.startSequence();
+            }
             telemetry.update();
 
             if (gamepad2.a) {
                 shooter.startSequence();
+
             }
-            if (gamepad1.dpad_up && !lastDpadUp) {
+            if (gamepad2.dpad_up && !lastDpadUp) {
                 velocityOffset += 25.0;
-                if (gamepad1.dpad_down && !lastDpadDown) {
+                if (gamepad2.dpad_down && !lastDpadDown) {
                     velocityOffset -= 25.0; // Decrease speed if shots are overshooting
                 }
 
-                lastDpadUp = gamepad1.dpad_up;
-                lastDpadDown = gamepad1.dpad_down;
+                lastDpadUp = gamepad2.dpad_up;
+                lastDpadDown = gamepad2.dpad_down;
+            telemetry.addLine("---- TUNING CONTROLS ---");
+            telemetry.addData("D-pad Up/Down", "Adjusts Velocity Offset");
+            telemetry.addData("distance", limelightVisionSystem.getDistance());
+            telemetry.addData("Manual Speed Offset", "%.1f ticks/sec", velocityOffset);
+            telemetry.addData("Current State", shooter.getCurrentState());
 
-                // 4. Trigger Sequence (Press A to start the intake -> spool -> shoot automated chain)
-                if (gamepad1.a) {
-                    shooter.startSequence();
-                }
+            telemetry.addLine("---- Shooter ---");
+            telemetry.addData("Shooter State", shooter.getCurrentState());
+            telemetry.addData("Target Velocity", "%.1f ticks/sec", targetVelocity);
+            telemetry.addData("Current Velocity", "%.1f ticks/sec", shootingMath.flywheel1.getVelocity());
+            telemetry.addData("State Timer", "%.1f seconds", shooter.stateTimer.seconds());
+
+            telemetry.update();
 
 
-                shooter.update(distanceInches);
+                
 
 
-                telemetry.addLine("=== TUNING CONTROLS ===");
-                telemetry.addData("D-pad Up/Down", "Adjusts Velocity Offset");
-                telemetry.addData("distance", limelightVisionSystem.getDistance());
-                telemetry.addData("Manual Speed Offset", "%.1f ticks/sec", velocityOffset);
-                telemetry.addData("Current State", shooter.getCurrentState());
-                telemetry.update();
+
 
             }
         }
