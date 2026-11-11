@@ -36,8 +36,22 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            telemetry.addLine("---- TUNING CONTROLS ---");
+            telemetry.addData("D-pad Up/Down", "Adjusts Velocity Offset");
+            telemetry.addData("distance", limelightVisionSystem.getDistance());
+            telemetry.addData("Manual Speed Offset", "%.1f ticks/sec", velocityOffset);
+            telemetry.addData("Current State", shooter.getCurrentState());
+
+            telemetry.addLine("---- Shooter ---");
+            telemetry.addData("Shooter State", shooter.getCurrentState());
+            telemetry.addData("Target Velocity", "%.1f ticks/sec", targetVelocity);
+            telemetry.addData("Current Velocity", "%.1f ticks/sec", shootingMath.flywheel1.getVelocity());
+            telemetry.addData("State Timer", "%.1f seconds", shooter.stateTimer.seconds());
             telemetry.update();
             limelightVisionSystem.updateTelemetry();
+            if (gamepad1.a) {
+                shooter.startSequence();
+            }
 
             // Drive inputs
             double y = gamepad1.left_stick_y;
@@ -46,9 +60,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 
             drive.drive(y, x, rx);
             shooter.update(limelightVisionSystem.getDistance());
-            if (gamepad1.a) {
-                shooter.startSequence();
-            }
+
             telemetry.update();
 
             if (gamepad2.a) {
@@ -63,17 +75,7 @@ public class TheOneThatWorksTeleOp extends LinearOpMode {
 
                 lastDpadUp = gamepad2.dpad_up;
                 lastDpadDown = gamepad2.dpad_down;
-            telemetry.addLine("---- TUNING CONTROLS ---");
-            telemetry.addData("D-pad Up/Down", "Adjusts Velocity Offset");
-            telemetry.addData("distance", limelightVisionSystem.getDistance());
-            telemetry.addData("Manual Speed Offset", "%.1f ticks/sec", velocityOffset);
-            telemetry.addData("Current State", shooter.getCurrentState());
 
-            telemetry.addLine("---- Shooter ---");
-            telemetry.addData("Shooter State", shooter.getCurrentState());
-            telemetry.addData("Target Velocity", "%.1f ticks/sec", targetVelocity);
-            telemetry.addData("Current Velocity", "%.1f ticks/sec", shootingMath.flywheel1.getVelocity());
-            telemetry.addData("State Timer", "%.1f seconds", shooter.stateTimer.seconds());
 
             telemetry.update();
 
